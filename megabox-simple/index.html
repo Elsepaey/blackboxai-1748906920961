@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MegaBox - Transform Your Storage</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #003e4b;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      min-height: 99vh;
+    }
+    header {
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #002f3a;
+    }
+    header h1 {
+      margin: 0;
+      font-weight: 700;
+      font-size: 1.5rem;
+    }
+    nav a {
+      color: white;
+      margin-left: 1.5rem;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    nav a:hover {
+      color: #3b82f6;
+    }
+    main {
+      flex-grow: 1;
+      padding: 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    h2 {
+      font-weight: 600;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    p {
+      font-weight: 400;
+      font-size: 1rem;
+      margin-bottom: 2rem;
+      color: #cbd5e1;
+    }
+    button {
+      background-color: #3b82f6;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #2563eb;
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: #002f3a;
+      font-size: 0.875rem;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>MegaBox</h1>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+  <main>
+    <h2>Transform Your Storage</h2>
+    <p>The most secure and efficient way to store and manage your belongings.</p>
+    <button id="generateLinkBtn">Generate Share Link</button>
+  </main>
+  <footer>
+    &copy; 2025 MegaBox. All rights reserved.
+  </footer>
+
+  <script>
+    document.getElementById('generateLinkBtn').addEventListener('click', () => {
+      alert('Share link generation feature coming soon!');
+    });
+  </script>
+</body>
+</html>
