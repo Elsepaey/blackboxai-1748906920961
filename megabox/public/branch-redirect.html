@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting... - MegaBox</title>
+    <script src="https://cdn.branch.io/branch-latest.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background-color: #003e4b;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+        }
+        .spinner {
+            width: 64px;
+            height: 64px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .message {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .sub-message {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="spinner"></div>
+        <div class="message">Opening MegaBox...</div>
+        <div class="sub-message">You'll be redirected in a moment</div>
+    </div>
+
+    <script>
+        // Initialize Branch SDK
+        branch.init('key_test_asCmg1x2BDyHh3GHNcEzofihqvepEG95', function(err, data) {
+            if (err) {
+                console.error('Branch SDK initialization error:', err);
+                redirectToHome();
+                return;
+            }
+
+            console.log('Branch data:', data);
+
+            // Handle deep link data
+            if (data && (data.$deeplink_path || data.file_id)) {
+                const fileId = data.file_id || (data.$deeplink_path && data.$deeplink_path.split('/').pop());
+                if (fileId) {
+                    // Redirect to preview page
+                    redirectToPreview(fileId);
+                } else {
+                    redirectToHome();
+                }
+            } else {
+                redirectToHome();
+            }
+        });
+
+        function redirectToPreview(fileId) {
+            // Get the app's base URL
+            const baseUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+                ? 'http://localhost:3000'
+                : 'https://megabox.vercel.app'; // Replace with your production URL
+
+            // Redirect to the preview page
+            window.location.replace(`${baseUrl}/preview/${fileId}`);
+        }
+
+        function redirectToHome() {
+            // Get the app's base URL
+            const baseUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+                ? 'http://localhost:3000'
+                : 'https://megabox.vercel.app'; // Replace with your production URL
+
+            // Redirect to home page
+            window.location.replace(baseUrl);
+        }
+
+        // Fallback redirect after 5 seconds if Branch initialization fails
+        setTimeout(function() {
+            if (document.body.classList.contains('loading')) {
+                redirectToHome();
+            }
+        }, 5000);
+    </script>
+</body>
+</html>
