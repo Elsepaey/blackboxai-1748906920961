@@ -1,0 +1,91 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.preview-container {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+.download-button {
+  transition: all 0.2s ease-out;
+}
+
+.download-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.2), 0 2px 4px -2px rgba(59, 130, 246, 0.1);
+}
+
+.download-button:active {
+  transform: translateY(0);
+}
+
+.back-button {
+  transition: all 0.2s ease-out;
+}
+
+.back-button:hover {
+  background-color: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.file-card {
+  transition: all 0.3s ease-out;
+}
+
+.file-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+}
+
+.file-icon {
+  transition: transform 0.3s ease-out;
+}
+
+.file-card:hover .file-icon {
+  transform: scale(1.1);
+}
+
+.retry-button {
+  transition: all 0.2s ease-out;
+}
+
+.retry-button:hover {
+  background-color: #2563eb;
+}
+
+.retry-button:active {
+  transform: scale(0.98);
+}
+
+.home-button {
+  transition: all 0.2s ease-out;
+}
+
+.home-button:hover {
+  background-color: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.home-button:active {
+  transform: scale(0.98);
+}
