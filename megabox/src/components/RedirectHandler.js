@@ -9,27 +9,26 @@ const RedirectHandler = () => {
   useEffect(() => {
     const handleRedirect = async () => {
       try {
-        // Initialize Branch SDK
-        const data = await initBranch();
+        // Initialize Branch SDK with deep link handler callback
+        const data = await initBranch((deepLinkData) => {
+          console.log('Deep link data from callback:', deepLinkData);
+          if (deepLinkData?.fileId) {
+            console.log('Navigating to preview with fileId from callback:', deepLinkData.fileId);
+            navigate(`/preview/${deepLinkData.fileId}`);
+          }
+        });
         console.log('Branch initialization data:', data);
 
-        if (data['+clicked_branch_link']) {
-          const deepLinkData = handleBranchDeepLink(data);
-          console.log('Deep link data:', deepLinkData);
-
-          if (deepLinkData?.fileId) {
-            navigate(`/preview/${deepLinkData.fileId}`);
-          } else {
-            navigate('/');
-          }
-        } else {
+        if (!data['+clicked_branch_link']) {
           // If no deep link data, check URL parameters
           const params = new URLSearchParams(location.search);
           const redirectUrl = params.get('url');
           
           if (redirectUrl) {
+            console.log('Redirecting to URL:', decodeURIComponent(redirectUrl));
             window.location.replace(decodeURIComponent(redirectUrl));
           } else {
+            console.log('No redirect URL found, navigating to home');
             navigate('/');
           }
         }
