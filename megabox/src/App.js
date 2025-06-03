@@ -1,57 +1,39 @@
 import React, { useEffect, useState } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import LandingPage from './components/LandingPage';
 import DeepLinkPreview from './components/DeepLinkPreview';
 import BranchDeepLinkHandler from './components/BranchDeepLinkHandler';
-import RedirectHandler from './components/RedirectHandler';
-import { initBranch, handleBranchDeepLink } from './utils/branchHelper';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    const initializeBranch = async () => {
+    const handleInitialNavigation = () => {
       try {
-        // Check if we're on a Branch.io domain
-        const isBranchDomain = window.location.hostname.includes('wzhu2.test-app.link') || 
-                             window.location.hostname.includes('wzhu2.app.link');
-
-        if (isBranchDomain) {
-          setIsLoading(false);
-          return; // Let RedirectHandler handle Branch domains
-        }
-
-        // Initialize Branch SDK
-        const data = await initBranch();
-        console.log('Branch SDK initialized:', data);
-
-        // Handle deep link data if present
-        if (data['+clicked_branch_link']) {
-          const deepLinkData = handleBranchDeepLink(data);
-          console.log('Deep link data:', deepLinkData);
-
-          if (deepLinkData?.fileId) {
-            navigate(`/preview/${deepLinkData.fileId}`);
+        // Check if we're on a preview path
+        const pathParts = location.pathname.split('/');
+        if (pathParts[1] === 'preview' && pathParts[2]) {
+          // We're already on a preview page, no need to redirect
+          console.log('Viewing preview for:', pathParts[2]);
+        } else if (location.search) {
+          // Check for file ID in query parameters
+          const params = new URLSearchParams(location.search);
+          const fileId = params.get('file');
+          if (fileId) {
+            navigate(`/preview/${fileId}`);
           }
         }
       } catch (error) {
-        console.error('Error initializing Branch:', error);
+        console.error('Error handling navigation:', error);
       } finally {
         setIsLoading(false);
       }
     };
 
-    initializeBranch();
-  }, [navigate]);
-
-  // Check if we're on a Branch.io domain
-  const isBranchDomain = window.location.hostname.includes('wzhu2.test-app.link') || 
-                        window.location.hostname.includes('wzhu2.app.link');
-
-  if (isBranchDomain) {
-    return <RedirectHandler />;
-  }
+    handleInitialNavigation();
+  }, [navigate, location]);
 
   if (isLoading) {
     return (
@@ -83,8 +65,7 @@ function App() {
       <BranchDeepLinkHandler />
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/preview/:fileId" element={<DeepLinkPreview />} />
-        <Route path="/redirect" element={<RedirectHandler />} />
+        <Route path="/preview/:fileId" element={<DeepLinkPreview key={window.location.pathname} />} />
       </Routes>
     </>
   );
